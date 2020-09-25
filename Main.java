@@ -1,24 +1,34 @@
 package practice;
 
+class Outer {
+	int outerField; static int outerStaticField;
+	static class Inner {
+		void innerMethod() {
+			outerStaticField += 10;
+			om2(); /*om()が非staticでもom内に非staticフィールドがあると不可*/
+
+		}
+	}
+	void outerMethod() {
+		Inner ic = new Inner();
+	}
+	static void om2() {
+		System.out.println("hello");
+	}
+}
+
 class Main {
 	public static void main(String[] args) {
-		Hero.money=1;
-		System.out.println(Hero.money);
-		System.out.println("---");
+		Outer.Inner ic = new Outer.Inner();
+		Outer o = new Outer();
+//		Outer.Inner oi = o.new Inner();
 
-		Hero h = new Hero();
-		h.money+=1;
-		System.out.println(Hero.money);
-		System.out.println("---");
+		for (int i = 0; i < 11; i++) {
+			ic.innerMethod();
+			o.outerField+=1;
 
-		SHero sh = new SHero();
-		sh.money+=1;
-
-		System.out.println(h);
-		System.out.println(sh);
-		System.out.println(Hero.money);
-		h.attack();
-		sh.attack();
-
+		}
+		System.out.println(o.outerField+""+o.outerStaticField);
+				/* 無関係なクラスからはOuter.Innerで利用 */
 	}
 }
